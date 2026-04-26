@@ -1,0 +1,51 @@
+{
+  "name": "activity-diary-desktop",
+  "version": "1.0.0",
+  "description": "Desktop version of Activity Diary",
+  "author": "Yermek",
+  "main": "main.js",
+  "scripts": {
+    "prestart": "npm --prefix ../activity-diary-frontend run build",
+    "start": "node scripts/start-electron.js",
+    "predist": "npm --prefix ../activity-diary-frontend run build",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "wait-on": "^8.0.3"
+  },
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.activitydiary.app",
+    "productName": "Activity Diary",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      {
+        "from": "../activity-diary-frontend/dist",
+        "to": "frontend",
+        "filter": ["**/*"]
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "resources/java",
+        "to": "java",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "../activity-diary-backend/build/libs/activity-diary-backend.jar",
+        "to": "backend/activity-diary-backend.jar"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
